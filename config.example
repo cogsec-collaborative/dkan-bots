@@ -1,0 +1,7 @@
+# make this fit your settings and save it to .config
+dkan:
+  uri:  https://example.com
+  user: foo
+  password: bar
+dataset:
+  default_dataset: 'Miscellaneous COVID-19'

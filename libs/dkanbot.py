@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import validators
 from dkan.client import DatasetAPI
 
 # set these as environment variables for now
@@ -42,20 +43,41 @@ def get_nodeid(title):
     return result[0]['nid']
 
 # add internet archive url to defined dkan dataset
-def add_resource_to_dataset(url, nid, dataset="Miscellaneous Covid-19"):
-    # if uri:
-    #   api = DatasetAPI(uri, user, password, True)
-    #
-    #   payload = {
-    #     'parameters[type]': 'resource',
-    #     'parameters[title]': 'REPLACE',
-    #
-    #     }
-    #
-    #   Attach the file to the resource node
-    #   r = api.attach_file_to_node(csv, resource['nid'], 'field_upload')
-    #   print(r.status_code)
-    #   print(r. text)
-    #   resource = api.node('retrieve', node_id=resource['nid'])
-    #   print(resource.json()['field_upload'])
-    pass
+def add_resource_to_dataset(ia_uri, trigger_source, dataset_nid=1):
+    if uri:
+
+        api = DatasetAPI(uri, user, password, False)
+        # take the back-end of the IA uri so we don't have to import it separately
+        source_uri = ia_uri[43:]
+        if (validators.url(source_uri) == True):
+            data = {
+                'title': '[dkanbot] Link to ' + source_uri,
+                'type': 'resource',
+                'body' : {
+                    'und': {
+                        '0': {
+                            'value': 'Data added by dkanbot from ' + str(trigger_source),
+                        }
+                    }
+                },
+                'field_dataset_ref': {
+                    'und': {
+                        '0': {
+                            'target_id': dataset_nid,
+                        }
+                    }
+                },
+                'field_link_api': {
+                    'und': {
+                        '0': {
+                            'url': ia_uri
+                        }
+                    }
+                }
+            }
+
+            r = api.node('create', data=data)
+            return json.loads(r.text)
+        else:
+            print("invalid source URI")
+            return 1
