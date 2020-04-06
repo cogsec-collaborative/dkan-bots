@@ -10,7 +10,9 @@ class TestDKANBot(unittest.TestCase):
 
     # test get node_id
     def test_node_id(self):
-        pass
+        test_nid = '1'
+        result = dkanbot.get_nodeid('Example dataset')
+        self.assertEqual(test_nid, result)
 
     # test posting a resource to a dataset
     def test_resource_attach(self):

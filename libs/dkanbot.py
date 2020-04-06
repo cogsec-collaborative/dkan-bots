@@ -43,4 +43,19 @@ def get_nodeid(title):
 
 # add internet archive url to defined dkan dataset
 def add_resource_to_dataset(url, nid, dataset="Miscellaneous Covid-19"):
+    # if uri:
+    #   api = DatasetAPI(uri, user, password, True)
+    #
+    #   payload = {
+    #     'parameters[type]': 'resource',
+    #     'parameters[title]': 'REPLACE',
+    #
+    #     }
+    #
+    #   Attach the file to the resource node
+    #   r = api.attach_file_to_node(csv, resource['nid'], 'field_upload')
+    #   print(r.status_code)
+    #   print(r. text)
+    #   resource = api.node('retrieve', node_id=resource['nid'])
+    #   print(resource.json()['field_upload'])
     pass
